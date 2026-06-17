@@ -699,7 +699,8 @@ do
     ts_ls = {},
     stylua = {}, -- Used to format Lua code
     prettier = {},
-
+    ols = {},
+    zls = {},
     -- Special Lua Config, as recommended by neovim help docs
     lua_ls = {
       on_init = function(client)
@@ -741,6 +742,30 @@ do
     gh 'mason-org/mason-lspconfig.nvim',
     gh 'WhoIsSethDaniel/mason-tool-installer.nvim',
   }
+  vim.lsp.enable('gleam')
+  --   -- Merge capabilities with the default config from lsp/markdown_oxide.lua
+  -- local capabilities = vim.lsp.protocol.make_client_capabilities()
+  --
+  -- -- If using nvim-cmp, extend capabilities (optional)
+  -- -- local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+  --
+  -- -- Use the function call form to MERGE (not replace) the config
+  -- vim.lsp.config('markdown_oxide', {
+  --     -- Ensure that dynamicRegistration is enabled! This allows the LS to take into account actions like the
+  --     -- Create Unresolved File code action, resolving completions for unindexed code blocks, ...
+  --     capabilities = vim.tbl_deep_extend(
+  --         'force',
+  --         capabilities,
+  --         {
+  --             workspace = {
+  --                 didChangeWatchedFiles = {
+  --                     dynamicRegistration = true,
+  --                 },
+  --             },
+  --         }
+  --     ),
+  -- })
+  -- vim.lsp.enable('markdown_oxide')
 
   -- Automatically install LSPs and related tools to stdpath for Neovim
   require('mason').setup {}
@@ -821,6 +846,15 @@ do
   --
   -- vim.pack.add { gh 'rafamadriz/friendly-snippets' }
   -- require('luasnip.loaders.from_vscode').lazy_load()
+  -- [[ Markdown Rendering ]]
+  vim.pack.add({
+    'https://github.com/nvim-treesitter/nvim-treesitter',
+    'https://github.com/nvim-mini/mini.nvim',            -- if you use the mini.nvim suite
+    -- 'https://github.com/nvim-mini/mini.icons',        -- if you use standalone mini plugins
+    -- 'https://github.com/nvim-tree/nvim-web-devicons', -- if you prefer nvim-web-devicons
+    'https://github.com/MeanderingProgrammer/render-markdown.nvim',
+  })
+  require('render-markdown').setup({}) -- only mandatory if you want to set custom options
 
   -- [[ Autocomplete Engine ]]
   vim.pack.add { { src = gh 'saghen/blink.cmp', version = vim.version.range '1.*' } }
